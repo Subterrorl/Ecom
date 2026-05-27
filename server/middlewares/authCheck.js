@@ -5,7 +5,7 @@ exports.authCheck = async (req, res, next) => {
     try {
         const headerToekn = req.headers.authorization;
         console.log('headerToekn--->', headerToekn);
-        if(!headerToekn) {
+        if (!headerToekn) {
             return res.status(401).json({ message: 'No token provided' });
         }
         const token = headerToekn.split(' ')[1];
@@ -14,39 +14,40 @@ exports.authCheck = async (req, res, next) => {
         req.user = decode;
 
         const user = await prisma.user.findFirst({
-            where:{
-                email:req.user.email
+            where: {
+                email: req.user.email
             }
         })
 
-        if(!user.enabled) {
+        if (!user.enabled) {
             return res.status(403).json({ message: 'User is disabled' });
         }
-        //console.log(req.user);
-        // console.log('authCheck middleware executed');
+
         next();
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: 'Token is not valid' });
     }
 }
 
 
 exports.adminCheck = async (req, res, next) => {
-    try{
-        const {email} = req.user;
-        
+    try {
+        const { email } = req.user;
+
         const adminUser = await prisma.user.findFirst({
-            where:{
-                email:email
+            where: {
+                email: email
             }
         })
 
-        if(!adminUser || adminUser.role !== 'admin') {
+        if (!adminUser || adminUser.role !== 'admin') {
             return res.status(403).json({ message: 'Admin access denied' });
         }
-        //console.log('adminUser', adminUser);
+
         next();
-    }catch(error){
+    } catch (error) {
+        console.log(error);
         res.status(500).json({ message: 'Error Admin access denied' });
     }
 }

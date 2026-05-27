@@ -13,6 +13,7 @@ exports.listUsers = async (req, res) => {
         });
         res.json(users);
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "conUser listUsers Server error" });
     }
 };
@@ -28,6 +29,7 @@ exports.changeStatus = async (req, res) => {
 
         res.json({ message: "Status updated successfully", user });
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "conUser changeStatus Server error" });
     }
 };
@@ -43,6 +45,7 @@ exports.changeRole = async (req, res) => {
 
         res.json({ message: "Role updated successfully", user });
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "conUser Server error" });
     }
 };
@@ -101,6 +104,7 @@ exports.userCart = async (req, res) => {
 
         res.json({ message: "add to cart successfully" });
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "conUser userCart Server error" });
     }
 };
@@ -121,6 +125,7 @@ exports.getUserCart = async (req, res) => {
         });
         res.json({ products: cart.products, cartTotal: cart.cartTotal });
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "conUser getUserCart Server error" });
     }
 };
@@ -149,6 +154,7 @@ exports.emptyCart = async (req, res) => {
             deletedCount: result.count,
         });
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "conUser emptyCart Server error" });
     }
 };
@@ -168,6 +174,7 @@ exports.saveAddress = async (req, res) => {
         console.log("address--->", address);
         res.json({ message: "Address saved successfully" });
     } catch (error) {
+        console.log(error.message);
         res.status(500).json({ message: "conUser Server error" });
     }
 };
@@ -181,9 +188,7 @@ exports.saveOrder = async (req, res) => {
             },
             include: { products: true },
         });
-        // console.log("cartTotal --->", userCart.cartTotal);
 
-        // console.log("userCart--->", userCart);
         //check empty cart
         if (!userCart || userCart.products.length === 0) {
             return res.status(400).json({ message: "Cart is empty" });
@@ -217,7 +222,25 @@ exports.saveOrder = async (req, res) => {
                 cartTotal: userCart.cartTotal,
             },
         });
-        console.log("order--->", order);
+
+        //update product quantity
+        const update = userCart.products.map((item) => ({
+            where: { id: item.productId },
+            data: {
+                quantity: { decrement: item.count },
+                sold: { increment: item.count }
+            }
+        }))
+
+        await Promise.all(
+            update.map((updateItem) => prisma.product.update(updateItem))
+        )
+
+        await prisma.cart.deleteMany({
+            where: { orderedById: Number(req.user.id) }
+        });
+
+        console.log("update--->", update);
 
         res.json({ message: "Order saved successfully", order });
     } catch (error) {
@@ -228,8 +251,24 @@ exports.saveOrder = async (req, res) => {
 
 exports.getOrder = async (req, res) => {
     try {
-        res.json({ message: "hello getOrder" });
+        const orders = await prisma.order.findMany({
+            where: { orderedById: Number(req.user.id) },
+            include: {
+                products: {
+                    include: {
+                        product: true
+                    }
+                }
+            }
+        });
+
+        if (orders.length === 0) {
+            return res.status(400).json({ message: 'No order' })
+        }
+        console.log(orders)
+        res.json({ message: "hello getOrder", orders });
     } catch (error) {
-        res.status(500).json({ message: "conUser Server error" });
+        console.log(error.message);
+        res.status(500).json({ message: "conUser getOrder Server error" });
     }
 };
