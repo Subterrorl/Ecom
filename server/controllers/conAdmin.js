@@ -1,17 +1,43 @@
+const prisma = require('../config/prisma.js');
+
 exports.changeOrderStatus = async (req, res) => {
     try {
-        res.json({ message: 'hello changeOrderStatus in controller!' });
-    } catch (err) {
+        const { orderId, orderStatus } = req.body;
+        //console.log(req.body);
+
+        const orderUpdate = await prisma.order.update({
+            where: { id: orderId },
+            data: { orderStatus: orderStatus }
+        })
+
+        res.json(orderUpdate);
+    } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: 'Server conadmin changeOrderStatus error' });
     }
 }
 
 exports.getOrderAdmin = async (req, res) => {
     try {
-        res.json({ message: 'hello getOrderAdmin in controller!' });
-    } catch (err) {
+        const orders = await prisma.order.findMany({
+            include: {
+                products: {
+                    include: {
+                        product: true
+                    }
+                },
+                orderedBy: {
+                    select: {
+                        id: true,
+                        email: true,
+                        address: true
+                    }
+                }
+            }
+        })
+        res.json(orders);
+    } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: 'Server conadmin getOrderAdmin error' });
     }
 }
