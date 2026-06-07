@@ -9,7 +9,7 @@ const Sidebaradmin = () => {
       <div className="h-24 bg-gray-900 flex items-center justify-center text-2xl font-bold">Admin Panel</div>
       <nav className="flex-1 px-4 py-4">
         <NavLink
-          to={"admin"}
+          to={"/admin"}
           end
           className={({ isActive }) =>
             isActive
