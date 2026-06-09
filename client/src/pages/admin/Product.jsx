@@ -1,10 +1,13 @@
 //rafce
-import React from 'react'
+import React from "react";
+import FormProduce from "../../components/admin/FormProduce";
 
 const Product = () => {
   return (
-    <div>Product</div>
-  )
-}
+    <div>
+      <FormProduce />
+    </div>
+  );
+};
 
-export default Product
+export default Product;
