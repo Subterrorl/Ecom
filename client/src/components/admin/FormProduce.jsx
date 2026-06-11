@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import useEcomStore from "../../store/ecom-store";
 import { createProduct } from "../../api/product";
 import { toast } from "react-toastify";
+import UploadFile from "./UploadFile";
 
 const initialState = {
   title: "Mouse Wireless",
@@ -19,7 +20,7 @@ const FormProduce = () => {
   const categories = useEcomStore((state) => state.categories);
   const getProduct = useEcomStore((state) => state.getProduct);
   const products = useEcomStore((state) => state.products);
-  console.log(products);
+  //console.log(products);
   const [form, setForm] = useState(initialState);
 
   useEffect(() => {
@@ -28,14 +29,14 @@ const FormProduce = () => {
   }, []);
 
   const handleOnChange = (e) => {
-    console.log(e.target.name, e.target.value);
+    //console.log(e.target.name, e.target.value);
     setForm({ ...form, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const res = await createProduct(token, form);
-      console.log(res);
+      //console.log(res);
       toast.success("Add product " + res.data.title + " success");
     } catch (err) {
       console.log(err);
@@ -97,6 +98,7 @@ const FormProduce = () => {
           ))}
         </select>
         <hr />
+        <UploadFile form={form} setForm={setForm} />
         <button className="bg-blue-500">เพิ่มสินค้า</button>
         <hr />
         <br />
@@ -115,9 +117,9 @@ const FormProduce = () => {
           </thead>
           <tbody>
             {products.map((item, index) => {
-              console.log(item);
+              //console.log(item);
               return (
-                <tr>
+                <tr key={index}>
                   <th scope="row">{index + 1}</th>
                   <td>{item.title}</td>
                   <td>{item.description}</td>
