@@ -1,15 +1,16 @@
 //rafce
 import React, { useEffect, useState } from "react";
 import useEcomStore from "../../store/ecom-store";
-import { createProduct } from "../../api/product";
+import { createProduct, deleteProduct } from "../../api/product";
 import { toast } from "react-toastify";
 import UploadFile from "./UploadFile";
+import { Link } from "react-router-dom";
 
 const initialState = {
-  title: "Mouse Wireless",
-  description: "desc",
-  price: 90,
-  quantity: 5,
+  title: "",
+  description: "",
+  price: 0,
+  quantity: 0,
   categoryId: "",
   images: [],
 };
@@ -38,8 +39,22 @@ const FormProduce = () => {
       const res = await createProduct(token, form);
       //console.log(res);
       toast.success("Add product " + res.data.title + " success");
+      setForm(initialState);
+      getProduct(token, 20);
     } catch (err) {
       console.log(err);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    if (window.confirm("ยืนยันการลบข้อมูล")) {
+      try {
+        const res = await deleteProduct(token, id);
+        toast.success("ลบสินค้า " + res.data.title + " แล้ว");
+        getProduct(token, 20);
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -105,7 +120,8 @@ const FormProduce = () => {
         <table className="table">
           <thead>
             <tr>
-              <th scope="col">No</th>
+              <th scope="col">No.</th>
+              <th scope="col">รูปภาพ</th>
               <th scope="col">ชื่อสินค้า</th>
               <th scope="col">รายละเอียด</th>
               <th scope="col">ราคา</th>
@@ -121,15 +137,34 @@ const FormProduce = () => {
               return (
                 <tr key={index}>
                   <th scope="row">{index + 1}</th>
+                  <td>
+                    {item.images.length > 0 ? (
+                      <img
+                        src={item.images[0].url}
+                        className="w-24 h-24 rounded-lg shadow-md"
+                      />
+                    ) : (
+                      <div className="w-24 h-24 rounded-lg shadow-md bg-gray-200 flex items-center justify-center">
+                        No Image
+                      </div>
+                    )}
+                  </td>
                   <td>{item.title}</td>
                   <td>{item.description}</td>
                   <td>{item.price}</td>
                   <td>{item.quantity}</td>
                   <td>{item.sold}</td>
                   <td>{item.updatedAt}</td>
-                  <td>
-                    <p>แก้ไข</p>
-                    <p>ลบ</p>
+                  <td className="flex gap-2">
+                    <p className="bg-yellow-500 rounded-md p-1 shadow-md">
+                      <Link to={"/admin/product/" + item.id}>แก้ไข</Link>
+                    </p>
+                    <p
+                      onClick={() => handleDelete(item.id)}
+                      className="bg-red-500 rounded-md p-1 shadow-md"
+                    >
+                      ลบ
+                    </p>
                   </td>
                 </tr>
               );

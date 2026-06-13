@@ -1,5 +1,10 @@
 const prisma = require('../config/prisma.js');
 const cloudinary = require('cloudinary').v2;
+cloudinary.config({
+    cloud_name: process.env.CLOUNDINARY_CLOUD_NAME,
+    api_key: process.env.CLOUNDINARY_API_KEY,
+    api_secret: process.env.CLOUNDINARY_API_SECRET
+});
 exports.create = async (req, res) => {
     try {
         const { title, description, price, quantity, categoryId, images } = req.body;
@@ -110,13 +115,32 @@ exports.update = async (req, res) => {
 exports.remove = async (req, res) => {
     try {
         const { id } = req.params;
+        //step 1 ค้นหาสินค้า include images
+        const product = await prisma.product.findFirst({
+            where: { id: Number(id) },
+            include: { images: true }
+        })
+        if (!product) {
+            return res.status(400).json({ error: 'Product not found' });
+        }
+        //step 2 promise ลบรูปภาพใน cloudinary ลบแบบรอฉันด้วย
+        const deletedImage = product.images.map((image) =>
+            new Promise((resolve, reject) => {
+                cloudinary.uploader.destroy(image.public_id, (error, result) => {
+                    if (error) reject(error);
+                    else resolve(result);
+                })
+            })
+        )
+        await Promise.all(deletedImage);
+        //step 3 ลบสินค้า
         await prisma.product.delete({
             where: {
                 id: Number(id)
             }
         });
 
-        res.json('hello remove products in controller!');
+        res.json('Delete Success');
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Server remove error' });
@@ -232,11 +256,7 @@ exports.searchFilter = async (req, res) => {
     }
 };
 
-cloudinary.config({
-    cloud_name: process.env.CLOUNDINARY_CLOUD_NAME,
-    api_key: process.env.CLOUNDINARY_API_KEY,
-    api_secret: process.env.CLOUNDINARY_API_SECRET
-});
+
 
 exports.createImages = async (req, res) => {
     try {
@@ -256,7 +276,13 @@ exports.createImages = async (req, res) => {
 
 exports.removeImage = async (req, res) => {
     try {
-        res.send('hello remove image')
+
+        const { public_id } = req.body;
+        //console.log(public_id);
+        cloudinary.uploader.destroy(public_id, (result) => {
+            res.json('remove image success');
+        })
+
     } catch (err) {
         console.log(err);
         res.status(500).json({ error: 'Server removeImage error' });
