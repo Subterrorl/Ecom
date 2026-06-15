@@ -4,11 +4,13 @@ import { toast } from "react-toastify";
 import Resizer from "react-image-file-resizer";
 import { removeFiles, uploadFiles } from "../../api/product";
 import useEcomStore from "../../store/ecom-store";
+import { Loader } from "lucide-react";
 
 const UploadFile = ({ form, setForm }) => {
   const token = useEcomStore((state) => state.token);
   const [isLoading, setIsLoading] = useState(false);
   const handleOnChange = (e) => {
+    setIsLoading(true);
     const files = e.target.files;
     if (files) {
       setIsLoading(true);
@@ -37,10 +39,12 @@ const UploadFile = ({ form, setForm }) => {
                   ...form,
                   images: allFiles,
                 });
+                setIsLoading(false);
                 toast.success("upload iamge sucess");
               })
               .catch((err) => {
                 console.log(err);
+                setIsLoading(false);
               });
           },
           "base64",
@@ -71,6 +75,8 @@ const UploadFile = ({ form, setForm }) => {
   return (
     <div className="my-4">
       <div className="flex mx-4 gap-4 my-4">
+        {isLoading && <Loader className="animate-spin w-16 h-16" />}
+
         {form.images.map((item, index) => (
           <div className="relative" key={index}>
             <img src={item.url} alt="" className="w-24 h-24 hover:scale-110" />
