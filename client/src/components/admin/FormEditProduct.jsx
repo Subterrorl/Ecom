@@ -117,7 +117,7 @@ const FormEditProduct = () => {
         </select>
         <hr />
         <UploadFile form={form} setForm={setForm} />
-        <button className="bg-blue-500">เพิ่มสินค้า</button>
+        <button className="bg-blue-500">แก้ไขสินค้า</button>
         <hr />
         <br />
       </form>

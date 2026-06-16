@@ -230,7 +230,7 @@ const handleCategory = async (req, res, categoryId) => {
     }
 }
 
-exports.searchFilter = async (req, res) => {
+exports.searchFilters = async (req, res) => {
     try {
         const { query, category, price } = req.body;
 
@@ -249,10 +249,10 @@ exports.searchFilter = async (req, res) => {
             await handlePrice(req, res, price);
         }
 
-        //res.json('hello searchFilter products in controller!');
+        //res.json('hello searchFilters products in controller!');
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: 'Server searchFilter error' });
+        res.status(500).json({ error: 'Server searchFilters error' });
     }
 };
 
