@@ -3,12 +3,23 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { listCategory } from "../api/CategoryAPI";
 import { listProduct, searchFilters } from "../api/product";
+import _ from "lodash";
 
-const ecomStore = (set) => ({
+const ecomStore = (set, get) => ({
   user: null,
   token: null,
   categories: [],
   products: [],
+  carts: [],
+  actionAddtoCart: (product) => {
+    const cart = get().carts;
+    const updateCart = [...cart, { ...product, count: 1 }];
+
+    const uniqe = _.unionWith(updateCart, _.isEqual);
+
+    set({ carts: updateCart });
+    console.log("click add in zeustand", cart);
+  },
   actionLogin: async (form) => {
     const res = await axios.post("http://localhost:5000/api/login", form);
     //console.log(res.data.token);

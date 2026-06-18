@@ -49,13 +49,13 @@ const SearchCard = () => {
     }
     setCategorySelected(inState);
 
-    if (inState > 0) {
+    if (inState.length > 0) {
       actionSearchFilters({ category: inState });
     } else {
       getProduct();
     }
   };
-  console.log(categorySelected);
+  //console.log(categorySelected);
 
   useEffect(() => {
     actionSearchFilters({ price });
@@ -80,7 +80,7 @@ const SearchCard = () => {
         <h1>หมวดหมู่สินค้า</h1>
         <div>
           {categories.map((item, index) => (
-            <div className="flex gap-2">
+            <div className="flex gap-2" key={item.id}>
               <input type="checkbox" value={item.id} onChange={handleCheck} />
               <label>{item.name}</label>
             </div>
