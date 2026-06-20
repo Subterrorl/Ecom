@@ -16,10 +16,36 @@ const ecomStore = (set, get) => ({
     const updateCart = [...cart, { ...product, count: 1 }];
 
     const uniqe = _.unionWith(updateCart, _.isEqual);
+    set({ carts: uniqe });
 
-    set({ carts: updateCart });
-    console.log("click add in zeustand", cart);
+    console.log("click add in zeustand", updateCart);
+    console.log("uniqe", uniqe);
   },
+
+  actionUpdateQuantity: (productId, newQuantity) => {
+    //console.log("click", productId, newQuantity);
+    set((state) => ({
+      carts: state.carts.map((item) =>
+        item.id === productId
+          ? { ...item, count: Math.max(1, newQuantity) }
+          : item,
+      ),
+    }));
+  },
+
+  actionRemoveProduct: (productId) => {
+    //console.log("click remove in zeustand", productId);
+    set((state) => ({
+      carts: state.carts.filter((item) => item.id !== productId),
+    }));
+  },
+
+  getTotalPrice: () => {
+    return get().carts.reduce((total, item) => {
+      return total + item.price * item.count;
+    }, 0);
+  },
+
   actionLogin: async (form) => {
     const res = await axios.post("http://localhost:5000/api/login", form);
     //console.log(res.data.token);
@@ -29,6 +55,7 @@ const ecomStore = (set, get) => ({
     });
     return res;
   },
+
   getCategory: async () => {
     try {
       const res = await listCategory();
@@ -37,6 +64,7 @@ const ecomStore = (set, get) => ({
       console.log(err);
     }
   },
+
   getProduct: async (count) => {
     try {
       const res = await listProduct(count);
@@ -45,6 +73,7 @@ const ecomStore = (set, get) => ({
       console.log(err);
     }
   },
+
   actionSearchFilters: async (arg) => {
     try {
       const res = await searchFilters(arg);
