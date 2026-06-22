@@ -60,7 +60,9 @@ const CartCard = () => {
                   <Plus size={14} />
                 </button>
               </div>
-              <div className="font-bold text-blue-500">{item.price}</div>
+              <div className="font-bold text-blue-500">
+                {item.price * item.count}
+              </div>
             </div>
           </div>
         ))}

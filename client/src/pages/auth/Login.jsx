@@ -44,7 +44,7 @@ const Login = () => {
     if (role === "admin") {
       navigate("/admin");
     } else {
-      navigate("/user");
+      navigate(-1);
     }
   };
 
@@ -53,9 +53,19 @@ const Login = () => {
       Login
       <form onSubmit={handleSubmit}>
         Email
-        <input className="border" onChange={handleOnChange} name="email" type="email" />
+        <input
+          className="border"
+          onChange={handleOnChange}
+          name="email"
+          type="email"
+        />
         Password
-        <input className="border" onChange={handleOnChange} name="password" type="text" />
+        <input
+          className="border"
+          onChange={handleOnChange}
+          name="password"
+          type="text"
+        />
         <button className="bg-blue-500">Login</button>
       </form>
     </div>

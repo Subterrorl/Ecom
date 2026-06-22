@@ -1,11 +1,11 @@
 //rafce
 import React from "react";
-import ListCardCart from "../components/card/ListCardCart";
+import ListCartCard from "../components/card/ListCartCard";
 
 const Cart = () => {
   return (
     <div>
-      <ListCardCart />
+      <ListCartCard />
     </div>
   );
 };

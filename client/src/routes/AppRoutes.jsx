@@ -4,7 +4,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import Cart from "../pages/Cart";
-import Chechout from "../pages/Chechout";
+import Checkout from "../pages/Checkout";
 import History from "../pages/History";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       { path: "shop", element: <Shop /> },
       { path: "cart", element: <Cart /> },
       { path: "history", element: <History /> },
-      { path: "chechout", element: <Chechout /> },
+      { path: "Checkout", element: <Checkout /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
     ],
