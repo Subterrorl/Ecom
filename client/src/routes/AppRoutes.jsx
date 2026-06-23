@@ -17,6 +17,7 @@ import Manage from "../pages/admin/Manage";
 import LayoutUser from "../layouts/LayoutUser";
 import HomeUser from "../pages/user/HomeUser";
 import EditProduct from "../pages/admin/EditProduct";
+import Payment from "../pages/user/Payment";
 
 const router = createBrowserRouter([
   {
@@ -27,7 +28,7 @@ const router = createBrowserRouter([
       { path: "shop", element: <Shop /> },
       { path: "cart", element: <Cart /> },
       { path: "history", element: <History /> },
-      { path: "Checkout", element: <Checkout /> },
+      { path: "checkout", element: <Checkout /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
     ],
@@ -46,7 +47,10 @@ const router = createBrowserRouter([
   {
     path: "/user",
     element: <LayoutUser />,
-    children: [{ index: true, element: <HomeUser /> }],
+    children: [
+      { index: true, element: <HomeUser /> },
+      { path: "payment", element: <Payment /> },
+    ],
   },
 ]);
 

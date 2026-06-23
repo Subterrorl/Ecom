@@ -20,7 +20,7 @@ const ListCartCard = () => {
       .then((res) => {
         console.log(res);
         toast.success("บันทึกใส่ตะกร้าสำร็จ");
-        navigate("/Checkout");
+        navigate("/checkout");
       })
       .catch((err) => console.log(err));
   };
