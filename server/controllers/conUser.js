@@ -181,6 +181,10 @@ exports.saveAddress = async (req, res) => {
 
 exports.saveOrder = async (req, res) => {
     try {
+        //step0: check stripe
+        const { id, amount, status, currency } = req.body.paymentIntent;
+
+
         //step1: get user cart
         const userCart = await prisma.cart.findFirst({
             where: {
@@ -220,6 +224,10 @@ exports.saveOrder = async (req, res) => {
                     connect: { id: Number(req.user.id) },
                 },
                 cartTotal: userCart.cartTotal,
+                stripePaymentId: id,
+                amount: Number(amount),
+                status: status,
+                currentcy: currency,
             },
         });
 

@@ -25,3 +25,7 @@ dist-ssr
 *.sw?
 
 jsconfig.json
+
+.env
+.env.local
+.env.production

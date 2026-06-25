@@ -72,7 +72,8 @@ const SummaryCard = () => {
             <button
               onClick={hdlSaveAddress}
               className="bg-blue-500 text-white px-3 py-2 rounded-md shadow-md 
-                         hover:bg-blue-700 hover:scale-105 hover:translate-y-1 hover: duration-200"
+                         hover:bg-blue-700 hover:scale-105 hover:translate-y-1 hover: duration-200
+                         cursor-pointer"
             >
               Save Address
             </button>
@@ -127,7 +128,7 @@ const SummaryCard = () => {
             <div>
               <button
                 onClick={hdlGoToPayment}
-                className="bg-green-400 w-full p-2 rounded-md shadow-md text-white hover:bg-green-600"
+                className="bg-green-400 w-full p-2 rounded-md shadow-md text-white hover:bg-green-600 cursor-pointer"
               >
                 ดำเนินการชำระเงิน
               </button>
