@@ -63,6 +63,18 @@ exports.userCart = async (req, res) => {
         });
         //console.log('user--->', user);
 
+        //check quantity
+        for (const item of cart) {
+            const product = await prisma.product.findUnique({
+                where: { id: item.id },
+                select: { quantity: true, title: true },
+            });
+
+            if (!product || item.count > product.quantity) {
+                return res.status(400).json({ ok: false, message: `Product ${product.title} is out of stock` });
+            }
+        }
+
         //delete old cart item
         await prisma.productOnCart.deleteMany({
             where: {
@@ -102,10 +114,10 @@ exports.userCart = async (req, res) => {
 
         //console.log('newCart--->', newCart);
 
-        res.json({ message: "add to cart successfully" });
+        res.json({ ok: true, message: "add to cart successfully" });
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: "conUser userCart Server error" });
+        res.status(500).json({ ok: false, message: "conUser userCart Server error" });
     }
 };
 
@@ -123,10 +135,10 @@ exports.getUserCart = async (req, res) => {
                 },
             },
         });
-        res.json({ products: cart.products, cartTotal: cart.cartTotal });
+        res.json({ ok: true, products: cart.products, cartTotal: cart.cartTotal });
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: "conUser getUserCart Server error" });
+        res.status(500).json({ ok: false, message: "conUser getUserCart Server error" });
     }
 };
 
@@ -137,7 +149,7 @@ exports.emptyCart = async (req, res) => {
         });
 
         if (!cart) {
-            return res.status(404).json({ message: "Cart not found" });
+            return res.status(404).json({ ok: false, message: "Cart not found" });
         }
 
         await prisma.productOnCart.deleteMany({
@@ -150,12 +162,13 @@ exports.emptyCart = async (req, res) => {
 
         console.log("result--->", result);
         res.json({
+            ok: true,
             message: "Cart emptied successfully",
             deletedCount: result.count,
         });
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: "conUser emptyCart Server error" });
+        res.status(500).json({ ok: false, message: "conUser emptyCart Server error" });
     }
 };
 
@@ -198,17 +211,9 @@ exports.saveOrder = async (req, res) => {
             return res.status(400).json({ message: "Cart is empty" });
         }
 
-        //check quantity
-        for (const item of userCart.products) {
-            const product = await prisma.product.findUnique({
-                where: { id: item.productId },
-                select: { quantity: true, title: true },
-            });
 
-            if (!product || item.count > product.quantity) {
-                return res.status(400).json({ message: `Product ${product.title} is out of stock` });
-            }
-        }
+
+        const amountTHB = Number(amount) / 100;
 
         //create order
         const order = await prisma.order.create({
@@ -225,7 +230,7 @@ exports.saveOrder = async (req, res) => {
                 },
                 cartTotal: userCart.cartTotal,
                 stripePaymentId: id,
-                amount: Number(amount),
+                amount: amountTHB,
                 status: status,
                 currentcy: currency,
             },
@@ -250,10 +255,10 @@ exports.saveOrder = async (req, res) => {
 
         console.log("update--->", update);
 
-        res.json({ message: "Order saved successfully", order });
+        res.json({ ok: true, message: "Order saved successfully", order });
     } catch (error) {
         console.log(error.message);
-        res.status(500).json({ message: "conUser saveOrder Server error" });
+        res.status(500).json({ ok: false, message: "conUser saveOrder Server error" });
     }
 };
 

@@ -17,7 +17,7 @@ const Payment = () => {
         setClientSecret(res.data.clientSecret);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
   }, []);
 

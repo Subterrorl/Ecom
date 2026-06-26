@@ -61,7 +61,7 @@ const ecomStore = (set, get) => ({
       const res = await listCategory();
       set({ categories: res.data });
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   },
 
@@ -70,7 +70,7 @@ const ecomStore = (set, get) => ({
       const res = await listProduct(count);
       set({ products: res.data });
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   },
 
@@ -79,7 +79,7 @@ const ecomStore = (set, get) => ({
       const res = await searchFilters(arg);
       set({ products: res.data });
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   },
 });

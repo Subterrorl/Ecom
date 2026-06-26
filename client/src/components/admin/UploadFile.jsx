@@ -43,7 +43,7 @@ const UploadFile = ({ form, setForm }) => {
                 toast.success("upload iamge sucess");
               })
               .catch((err) => {
-                console.log(err);
+                console.log(err.response);
                 setIsLoading(false);
               });
           },
@@ -69,7 +69,7 @@ const UploadFile = ({ form, setForm }) => {
         toast.error(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
   };
   return (

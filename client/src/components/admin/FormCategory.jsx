@@ -29,7 +29,7 @@ const FormCategory = () => {
       toast.success("เพิ่มข้อมูล " + res.data.name + " สำเร็จ");
       getCategory(token);
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   };
 
@@ -41,7 +41,7 @@ const FormCategory = () => {
       toast.success("delete " + res.data.name + " success");
       getCategory(token);
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   };
 

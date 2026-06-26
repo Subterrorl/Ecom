@@ -57,7 +57,7 @@ const FormEditProduct = () => {
       toast.success("Add product " + res.data.title + " success");
       navigate("/admin/product");
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   };
 

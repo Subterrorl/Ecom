@@ -52,7 +52,7 @@ export default function CheckoutForm() {
           //navigate("/user/history");
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response);
         });
     } else {
       console.log("Something wrong!!!");

@@ -27,7 +27,7 @@ const SummaryCard = () => {
         setCartTotal(res.data.cartTotal);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response);
       });
   };
 
@@ -41,7 +41,7 @@ const SummaryCard = () => {
         toast.success("บันทึกที่อยู่สําเร็จ ", res.data.message);
         setAddressSaved(true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err.response));
   };
 
   const hdlGoToPayment = () => {

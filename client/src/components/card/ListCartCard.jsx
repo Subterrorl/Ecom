@@ -22,7 +22,10 @@ const ListCartCard = () => {
         toast.success("บันทึกใส่ตะกร้าสำร็จ");
         navigate("/checkout");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err.response);
+        toast.warning(err.response.data.message);
+      });
   };
 
   return (

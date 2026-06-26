@@ -50,7 +50,7 @@ const FormProduce = () => {
       setForm(initialState);
       getProduct(20);
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
     }
   };
 
@@ -61,7 +61,7 @@ const FormProduce = () => {
         toast.success("ลบสินค้า " + res.data.title + " แล้ว");
         getProduct(20);
       } catch (err) {
-        console.log(err);
+        console.log(err.response);
       }
     }
   };
