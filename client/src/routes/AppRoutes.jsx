@@ -5,7 +5,7 @@ import Home from "../pages/Home";
 import Shop from "../pages/Shop";
 import Cart from "../pages/Cart";
 import Checkout from "../pages/Checkout";
-import History from "../pages/History";
+import History from "../pages/user/History";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import Layout from "../layouts/Layout";
@@ -29,7 +29,7 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "shop", element: <Shop /> },
       { path: "cart", element: <Cart /> },
-      { path: "history", element: <History /> },
+
       { path: "checkout", element: <Checkout /> },
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
@@ -52,6 +52,7 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <HomeUser /> },
       { path: "payment", element: <Payment /> },
+      { path: "history", element: <History /> },
     ],
   },
 ]);
