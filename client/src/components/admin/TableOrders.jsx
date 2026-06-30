@@ -3,6 +3,8 @@ import React, { use, useEffect, useState } from "react";
 import { getOrdersAdmin, changeOrderStatus } from "../../api/admin";
 import useEcomStore from "../../store/ecom-store";
 import { toast } from "react-toastify";
+import { numberFormat } from "../../utils/number";
+import { dateFormat } from "../../utils/dateFormat";
 
 const TableOrders = () => {
   const token = useEcomStore((state) => state.token);
@@ -55,6 +57,7 @@ const TableOrders = () => {
           <tr className="bg-gray-200 text-left">
             <th className="text-center">ลำดับ</th>
             <th>ชื่อผู้ใช้</th>
+            <th>วันที่</th>
             <th>สินค้า</th>
             <th>รวม</th>
             <th>สถานะ</th>
@@ -71,6 +74,7 @@ const TableOrders = () => {
                   <p>{item.orderedBy.email}</p>
                   <p>{item.orderedBy.address}</p>
                 </td>
+                <td>{dateFormat(item.createdAt)}</td>
                 <td className=" py-4">
                   <ul>
                     {item.products?.map((product, index) => (
@@ -78,14 +82,15 @@ const TableOrders = () => {
                         <li>
                           {product.product.title}{" "}
                           <span className="text-sm">
-                            {product.count} x {product.product.price}
+                            {product.count} x{" "}
+                            {numberFormat(product.product.price)}
                           </span>
                         </li>
                       </div>
                     ))}
                   </ul>
                 </td>
-                <td>{item.cartTotal}</td>
+                <td>{numberFormat(item.cartTotal)}</td>
                 <td>
                   <span
                     className={`px-2 py-1 rounded-md ${getStatusColor(item.orderStatus)}`}

@@ -5,6 +5,7 @@ import useEcomStore from "../../store/ecom-store";
 import { Link, useNavigate } from "react-router-dom";
 import { createUserCart } from "../../api/user";
 import { toast } from "react-toastify";
+import { numberFormat } from "../../utils/number";
 
 const ListCartCard = () => {
   const cart = useEcomStore((state) => state.carts);
@@ -61,13 +62,13 @@ const ListCartCard = () => {
                   <div>
                     <p className="font-bold">{item.title}</p>
                     <p className="text-sm">
-                      {item.price} x {item.count}
+                      {numberFormat(item.price)} x {item.count}
                     </p>
                   </div>
                 </div>
                 {/*right in */}
                 <div className="font-bold text-blue-500">
-                  {item.price * item.count}{" "}
+                  {numberFormat(item.price * item.count)}{" "}
                 </div>
               </div>
             </div>
@@ -78,7 +79,9 @@ const ListCartCard = () => {
           <p className="text-xl font-bold">ยอดรวม</p>
           <div className="flex justify-between">
             <span>รวมสุทธิ์</span>
-            <span className="text-xl">{getTotalPrice()}</span>
+            <span className="text-xl font-bold">
+              {numberFormat(getTotalPrice())}
+            </span>
           </div>
           <div className="flex flex-col gap-3">
             {user ? (

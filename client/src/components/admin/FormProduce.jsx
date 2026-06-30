@@ -6,6 +6,8 @@ import { toast } from "react-toastify";
 import UploadFile from "./UploadFile";
 import { Link } from "react-router-dom";
 import { Pencil, Trash } from "lucide-react";
+import { numberFormat } from "../../utils/number";
+import { dateFormat } from "../../utils/dateFormat";
 
 const initialState = {
   title: "",
@@ -163,10 +165,10 @@ const FormProduce = () => {
                   </td>
                   <td className="text-center">{item.title}</td>
                   <td className="text-center">{item.description}</td>
-                  <td className="text-center">{item.price}</td>
+                  <td className="text-center">{numberFormat(item.price)}</td>
                   <td className="text-center">{item.quantity}</td>
                   <td className="text-center">{item.sold}</td>
-                  <td className="text-center">{item.updatedAt}</td>
+                  <td className="text-center">{dateFormat(item.updatedAt)}</td>
                   <td>
                     <div className="flex gap-2 items-center justify-center">
                       <p className="bg-yellow-500 rounded-md p-1 shadow-md  hover:scale-105  hover:-translate-y-1 hover:duration-200">

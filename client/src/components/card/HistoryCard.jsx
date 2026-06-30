@@ -3,6 +3,8 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { getOrders } from "../../api/user";
 import useEcomStore from "../../store/ecom-store";
+import { numberFormat } from "../../utils/number";
+import { dateFormat } from "../../utils/dateFormat";
 
 const HistoryCard = () => {
   const token = useEcomStore((state) => state.token);
@@ -23,6 +25,19 @@ const HistoryCard = () => {
       });
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Not Process":
+        return "bg-gray-200";
+      case "Processing":
+        return "bg-blue-200";
+      case "Completed":
+        return "bg-green-200";
+      case "Cancelled":
+        return "bg-red-200";
+    }
+  };
+
   return (
     <div className="space-y-4">
       <h1 className="text-2xl font-bold">ประวัติการสั่งซื้อ</h1>
@@ -34,14 +49,20 @@ const HistoryCard = () => {
           return (
             <div key={index} className="bg-gray-100 p-4 rounded-md shadow-md">
               {/**header */}
-              <div className="flex justify-between">
+              <div className="flex justify-between mb-2">
                 {/**left */}
                 <div>
                   <p className="text-sm">Order data</p>
-                  <p className="font-bold">{item.updatedAt}</p>
+                  <p className="font-bold">{dateFormat(item.updatedAt)}</p>
                 </div>
                 {/**right */}
-                <div>{item.orderStatus}</div>
+                <div>
+                  <span
+                    className={`px-2 py-1 rounded-md ${getStatusColor(item.orderStatus)}`}
+                  >
+                    {item.orderStatus}
+                  </span>
+                </div>
               </div>
               {/**table */}
               <div>
@@ -58,11 +79,15 @@ const HistoryCard = () => {
                     {item.products?.map((product, index) => {
                       console.log("product", product);
                       return (
-                        <tr>
+                        <tr key={index}>
                           <td>{product.product.title}</td>
-                          <td>{product.product.price}</td>
+                          <td>{numberFormat(product.product.price)}</td>
                           <td>{product.count}</td>
-                          <td>{product.count * product.product.price}</td>
+                          <td>
+                            {numberFormat(
+                              product.count * product.product.price,
+                            )}
+                          </td>
                         </tr>
                       );
                     })}
@@ -73,7 +98,7 @@ const HistoryCard = () => {
               <div>
                 <div className="text-right">
                   <p>ราคาสุทธิ</p>
-                  <p>{item.cartTotal}</p>
+                  <p>{numberFormat(item.cartTotal)}</p>
                 </div>
               </div>
             </div>
