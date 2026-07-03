@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function CheckoutForm() {
   const token = useEcomStore((state) => state.token);
-  //const clearCart = useEcomStore((state) => state.clearCart);
+  const clearCart = useEcomStore((state) => state.clearCart);
 
   const navigate = useNavigate();
 
@@ -33,10 +33,14 @@ export default function CheckoutForm() {
 
     const payload = await stripe.confirmPayment({
       elements,
+      confirmParams: {
+        return_url: "http://localhost:5173/user/history",
+      },
       redirect: "if_required",
     });
 
     console.log("payload", payload);
+
     if (payload.error) {
       setMessage(payload.error.message);
       console.log("error");
@@ -47,9 +51,9 @@ export default function CheckoutForm() {
       saveOrder(token, payload)
         .then((res) => {
           console.log(res);
-          //clearCart();
+          clearCart();
           toast.success("Payment Success!!!");
-          //navigate("/user/history");
+          navigate("/user/history");
         })
         .catch((err) => {
           console.log(err.response);

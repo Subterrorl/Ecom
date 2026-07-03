@@ -11,6 +11,9 @@ const ecomStore = (set, get) => ({
   categories: [],
   products: [],
   carts: [],
+  logout: () => {
+    set({ user: null, token: null, categories: [], products: [], carts: [] });
+  },
   actionAddtoCart: (product) => {
     const cart = get().carts;
     const updateCart = [...cart, { ...product, count: 1 }];
@@ -81,6 +84,10 @@ const ecomStore = (set, get) => ({
     } catch (err) {
       console.log(err.response);
     }
+  },
+
+  clearCart: async () => {
+    set({ carts: [] });
   },
 });
 

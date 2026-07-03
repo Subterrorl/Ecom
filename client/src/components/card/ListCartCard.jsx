@@ -87,6 +87,7 @@ const ListCartCard = () => {
             {user ? (
               <Link>
                 <button
+                  disabled={cart.length < 1}
                   onClick={handleSaveCart}
                   className="bg-green-500 rounded-md p-2  w-full text-white py-2 shadow-md hover:bg-green-700 cursor-pointer"
                 >
