@@ -1,10 +1,11 @@
 //rafce
 import React from "react";
+import ContentCarousel from "../components/home/ContentCarousel";
 
 const Home = () => {
   return (
     <div>
-      <h1 className="text-3xl font-bold underline text-red-500">Home Page</h1>
+      <ContentCarousel />
     </div>
   );
 };
