@@ -74,7 +74,7 @@ const MainNav = () => {
                 <ChevronDown />
               </button>
               {isOpen && (
-                <div className="absolute mt-2 top-12 bg-white shadow-md">
+                <div className="absolute mt-2 top-12 bg-white shadow-md z-50">
                   <Link
                     className="px-4 py-2 block hover:bg-yellow-200"
                     to="/user/history"
