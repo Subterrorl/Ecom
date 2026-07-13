@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.4.0",
     "@stripe/react-stripe-js": "^6.6.0",
     "@stripe/stripe-js": "^9.8.0",
     "@tailwindcss/vite": "^4.3.0",
@@ -25,12 +26,15 @@
     "rc-slider": "^11.1.9",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
+    "react-hook-form": "^7.81.0",
     "react-image-file-resizer": "^0.4.8",
     "react-router-dom": "^7.15.1",
     "react-toastify": "^11.1.0",
     "swiper": "^14.0.1",
     "tailwindcss": "^4.3.0",
-    "zustand": "^5.0.14"
+    "zod": "^4.4.3",
+    "zustand": "^5.0.14",
+    "zxcvbn": "^4.4.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
