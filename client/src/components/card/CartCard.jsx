@@ -75,7 +75,7 @@ const CartCard = () => {
         </div>
         <Link to={"/cart"}>
           <button className="mt-4 bg-green-500 hover:bg-green-700 text-white w-full py-2 rounded-md shadow-md cursor-pointer">
-            ดำเนินการชำระเงิน test
+            ดำเนินการชำระเงิน
           </button>
         </Link>
       </div>

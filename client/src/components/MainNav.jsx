@@ -85,7 +85,6 @@ const MainNav = () => {
                   <button
                     onClick={() => logout()}
                     className="px-4 py-2 block hover:bg-yellow-200"
-                    to="/user/history"
                   >
                     Logout
                   </button>

@@ -49,25 +49,42 @@ const Login = () => {
   };
 
   return (
-    <div>
-      Login
-      <form onSubmit={handleSubmit}>
-        Email
-        <input
-          className="border"
-          onChange={handleOnChange}
-          name="email"
-          type="email"
-        />
-        Password
-        <input
-          className="border"
-          onChange={handleOnChange}
-          name="password"
-          type="text"
-        />
-        <button className="bg-blue-500">Login</button>
-      </form>
+    <div className="h-[calc(100vh-64px)] overflow-hidden flex items-center justify-center bg-gray-100">
+      <div className="w-full shadow-md bg-white p-8 max-w-md">
+        <h1 className="text-2xl text-center mb-4 font-bold">Login</h1>
+
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4">
+            <input
+              placeholder="Email"
+              className="border w-full px-3 py-2 rounded
+            focus:outline-none focus:ring-2 focus:ring-blue-500
+            focus:border-transparent"
+              onChange={handleOnChange}
+              name="email"
+              type="email"
+            />
+
+            <input
+              placeholder="Password"
+              className="border w-full px-3 py-2 rounded
+                    focus:outline-none focus:ring-2 focus:ring-blue-500
+                    focus:border-transparent"
+              onChange={handleOnChange}
+              name="password"
+              type="password"
+            />
+            <button
+              className="bg-blue-500 rounded-md
+             w-full text-white font-bold py-2 shadow
+             hover:bg-blue-700
+             "
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

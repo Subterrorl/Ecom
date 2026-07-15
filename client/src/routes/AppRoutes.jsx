@@ -15,6 +15,7 @@ import Product from "../pages/admin/Product";
 import Category from "../pages/admin/Category";
 import Manage from "../pages/admin/Manage";
 import LayoutUser from "../layouts/LayoutUser";
+import LayoutAuth from "../layouts/LayoutAuth";
 import HomeUser from "../pages/user/HomeUser";
 import EditProduct from "../pages/admin/EditProduct";
 import Payment from "../pages/user/Payment";
@@ -30,8 +31,13 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: "shop", element: <Shop /> },
       { path: "cart", element: <Cart /> },
-
       { path: "checkout", element: <Checkout /> },
+    ],
+  },
+  {
+    path: "/",
+    element: <LayoutAuth />,
+    children: [
       { path: "login", element: <Login /> },
       { path: "register", element: <Register /> },
     ],
