@@ -11,7 +11,7 @@ const Home = () => {
       <p className="text-2xl my-4 text-center">สินค้าขายดี</p>
       <BestSeller />
 
-      <p className="text-2xl my-4 text-center">สินค้าขายดี</p>
+      <p className="text-2xl my-4 text-center">สินค้าใหม่</p>
       <NewProduct />
     </div>
   );
